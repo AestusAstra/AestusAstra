@@ -1,0 +1,39 @@
+<!DOCTYPE = html>
+<html>
+<h>THE PROGRAMMING OF COAXIAL SWERVEDRIVE FROM SCRATCH</h>
+
+  <p>day 1: I created a clone of the Solvers lib quickstart because it has most of the useful plugins that I didn't want to have to install manually
+  like PhotonCore.  I then created the overall structure of the program.  My plan was to create a SwerveModule class that would each possess its own instances
+  of a motor and servo, and I would control via the overall SwerveDrive subsystem file.  I tried to amass all of the hardware in one file but it took too long and wasn't
+  working, so I cut my losses and put it into the swervedrive file.  I would later be very glad that I made this choice.  
+  
+  I also put in all of my wrapper classes with added functionality, such as caching, and enabled multithreading on my control hub with a limit of 8 threads, to 
+  be safe.  This is due to the Rev Control hub being thread isolated, so cramming in too many threads may lead to memory leaks and random crashes.  </p>
+
+  day 2:I began mapping my inputs, and initialized my axon encoders, which I realized I had not done earlier.  I also began attempting to create the kinematics. 
+
+  day 3: I finished the translational kinematics, but did not understand how to integrate the final robot rotation vector and map it into the output on the modules. 
+  I spent the day making small overall tweaks and code cleanup, writing comments, and attempting to tackle the larger kinematics problem ahead.  
+
+  day 4: I got help from a romanian team, one of the best swerve teams in the world, who dominated the early OPR charts.  They showed me a few ways of integrating 
+  rotation including the method used by KookyBotz and Seattle Solvers but I found them ultimately a little overcomplicated.  I ended up rederiving the kinematics myself
+  using the kinematic diagram posted on Chief Delphi on as a guide.  I ended up taking a different approach because I found theirs to be a bit long.  The power inputs
+  I used I feel put more rotation into account than I would prefer, but it seems to be valid, and has been tested.  
+
+  I originally planned for the rotation vector to be incorporated differently via an array of values assigned to each module, but I ended up having to calculate the vectors 
+  and resultant motor and servo powers in SwerveDrive, as I had to create a Max function to find a common denominator for each motor power to make sure that the 
+  motor power never exceeded 1.0, which is the maximum they can output.  this required me to compare the power values calculated for each pod, and so neccesitated
+  that they be calculated outside of each individual pod, inside SwerveDrive, and sent into the modules.  I still kept as much compartmentalization I could though, 
+  in case that I would have different sensitivities in each module for turning, and so would require different PID constants.  
+  
+  Android studio was complaining about my naming scheme, as it thought my names were all typos for some unknown reason, and so I had to go back and rename all of 
+  my variables and hardware.
+
+  Day 5:
+  I spent this day writing comments, creating a function to ensure that the servo always receives some amount of power to ensure that the encoder is always reading.  
+  I didn't do much this day.  I intend to also add a module heading caching funtionality to further decrease loop times (and help with micro adjustments)
+  , as well as in the future add driver augmentation/assistance code, such as making a field centric drive with heading control (requiring implementation of an 
+  IMU), and X - locking, where the drivetrain forms an X with the wheels to prevent being moved.  
+
+  
+</html>
